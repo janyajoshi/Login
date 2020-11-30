@@ -10,8 +10,10 @@
 </head>
 <script>
 	function auth() {
-		var cred = {username:document.getElementById("email").value,
-					password:document.getElementById("pass").value}
+		var cred = {
+			username:document.getElementById("email").value,
+			password:document.getElementById("pass").value
+		}
 		$.ajax({
 			type:"POST",
 			dataType:"json",
