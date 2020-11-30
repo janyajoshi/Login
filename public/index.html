@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+	<meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="./style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<script>
+	function auth() {
+		var cred = {username:document.getElementById("email").value,
+					password:document.getElementById("pass").value}
+		$.ajax({
+			type:"POST",
+			dataType:"json",
+			contentType: "application/json",
+			data:JSON.stringify(cred),
+			url:"/cred",
+		})
+		
+	}
+</script>
+<body>
+	<div class="content">
+
+		<div class="text">Login</div>
+			<div class="field">
+				<input id="email" placeholder="Username" type="email" required>
+			</div>
+			<br>
+			<div class="field">
+				<input id="pass" placeholder="Password" type="password" required>
+			</div>
+				
+			<button onclick="auth()">Sign in</button>
+		</div>
+  	</div>
+</body>
+</html>
