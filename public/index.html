@@ -8,36 +8,59 @@
 	<link rel="stylesheet" href="./style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
 	function auth() {
-		var cred = {
-			username:document.getElementById("email").value,
-			password:document.getElementById("pass").value
-		}
-		$.ajax({
+		var cred = {username:document.getElementById("email").value,
+					password:document.getElementById("pass").value}
+		/*$.ajax({
 			type:"POST",
 			dataType:"json",
 			contentType: "application/json",
 			data:JSON.stringify(cred),
 			url:"/cred",
 		})
-		
+		$.get("/cred",function(status) {
+			console.log(status);
+		})*/
+		var socket = io()
+		socket.emit('cred',JSON.stringify(cred))
+		console.log("data sent");
+		socket.on('status',function(a) {
+			if (a==1) {
+				console.log("Login Allowed");
+				document.getElementById("login").remove()
+				$(document).ready(function() {
+        			$("div#home").removeClass("hidden");
+      			});
+			} else {
+				console.log("Login Not allowed");
+			}
+		})
 	}
 </script>
 <body>
-	<div class="content">
+	<div id="login">
+		<div class="content">
 
-		<div class="text">Login</div>
-			<div class="field">
-				<input id="email" placeholder="Username" type="email" required>
+			<div class="text">Login</div>
+				<div class="field">
+					<input id="email" placeholder="Username" type="email" required>
+				</div>
+				<br>
+				<div class="field">
+					<input id="pass" placeholder="Password" type="password" required>
+				</div>
+					
+				<button onclick="auth()">Sign in</button>
 			</div>
-			<br>
-			<div class="field">
-				<input id="pass" placeholder="Password" type="password" required>
-			</div>
-				
-			<button onclick="auth()">Sign in</button>
 		</div>
-  	</div>
+	</div>
+
+	<div id="home" class="hidden">
+		<!--This division be Homepage-->
+		<h1>This is Homepage.</h1>
+	</div>
 </body>
 </html>
